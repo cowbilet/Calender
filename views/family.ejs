@@ -61,82 +61,9 @@
             position: absolute;
             z-index: 10;
         }
-        #modal {
-            width: 50%;
-            height: 50%;
-            background-color: white;
-            position: absolute;
-            z-index: 11;
-            left: 25%;
-            top: 25%;
-        }
-        #modal-body {
-            width: 90%;
-            height: 80%;
-            margin-left: 10%;
-            font-size: 1.5em;
-        }
     </style>
-    <script>
-        let events = <%- JSON.stringify(days) %>;
-        let month = <%- month %>;
-        let year = <%- year %>
-        function ModalShow(element) {
-            document.getElementById("modal_items").style.display = "block";
-        }
-        function EventShow(element) {
-            let event_day = element.parentElement.parentElement.id
-            let event_id = element.id
-            let event = events[event_day]["events"].find(function (event) {
-                return event["id"] == event_id
-            })
-            console.log(event)
-        }
-        function ModalHide() {
-            document.getElementById("modal_items").style.display = "none";
-        }
-    </script>
 </head>
-<!-- <div id="modal_items" style="display: none;">
-    <div id="background" onclick="ModalHide()">
-    </div>
-    <div id="modal">
-        <h1 style="margin-left: 10px; font-size: 2.5em;">TEST Event</h1>
-        <div id="modal-body">
 
-        </div>
-        <div id="modal-footer">
-            <div id="modal-footer-edit">
-                <button>Edit</button>
-            </div>
-            <div id="modal-footer-delete">
-                <button>Delete</button>
-            </div>
-        </div>
-            <!-- <div id="modal-header-close">
-                <i class="fas fa-times"></i>
-            </div> -->
-        <!-- <div id="modal-body">
-            <div id="modal-body-title">
-                <h2>Event Title</h2>
-            </div>
-            <div id="modal-body-description">
-                <p>Event Description</p>
-            </div>
-            <div id="modal-body-time">
-                <p>Event Time</p>
-            </div>
-        </div> -->
-        <!-- <div id="modal-footer">
-            <div id="modal-footer-edit">
-                <button>Edit</button>
-            </div>
-            <div id="modal-footer-delete">
-                <button>Delete</button>
-            </div>
-        </div>
-    </div>
-</div> -->
 <body>
     
     <div id="calender">
@@ -146,7 +73,7 @@
                     <div class="day-number"><%= days[index]["day"] %></div>
                     <div>
                         <% days[index]["events"].forEach(function(event){ %>
-                            <div id="<%=event["id"]%>" class="event" onclick="ModalShow(this)"><%= user["name"] %> <span>
+                            <div id="<%=event["id"]%>" class="event"><%= user["name"] %> <span>
                                 <%= event["data"]["start-time"]%> - <%=event["data"]["end-time"]%>
                             </span></div>
                         <% }); %>

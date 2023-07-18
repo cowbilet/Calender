@@ -1,19 +1,12 @@
 import express from 'express';
-<<<<<<< HEAD
 import mysql from 'mysql2/promise';
-=======
-import mysql from 'mysql';
->>>>>>> c43f18c2ff914bef12546a47dbbeb3baf4bcedb9
 import env from 'dotenv';
 import fs from 'fs';
 import session from 'express-session'
 import MySQLStore from 'express-mysql-session';
 import { auth } from 'express-openid-connect'
 import https from 'https';
-<<<<<<< HEAD
 import { CreateUser, jsonToString, stringToJson } from './sql.js';
-=======
->>>>>>> c43f18c2ff914bef12546a47dbbeb3baf4bcedb9
 
 env.config();
 
@@ -21,13 +14,9 @@ env.config();
 
 
 
-<<<<<<< HEAD
 
 const app = express();
 app.set('view engine', 'ejs');
-=======
-const app = express();
->>>>>>> c43f18c2ff914bef12546a47dbbeb3baf4bcedb9
 const SQLStoreSession = MySQLStore(session);
 
 const mysql_options = {
@@ -45,7 +34,6 @@ const auth0_config = {
     clientID: 'loutfK3tWOJmSlBocKII0vYwSibMit94',
     issuerBaseURL: 'https://dev-6m7mvx13.au.auth0.com'
 };
-<<<<<<< HEAD
 const connection = mysql.createPool({
     ...mysql_options,
     waitForConnections: true,
@@ -53,9 +41,6 @@ const connection = mysql.createPool({
     maxIdle: 10,
     queueLimit: 0
 });
-=======
-
->>>>>>> c43f18c2ff914bef12546a47dbbeb3baf4bcedb9
 const sessionStore = new SQLStoreSession(mysql_options);
 
 
@@ -72,12 +57,12 @@ app.use(session({
 }));
 app.use(express.json());
 app.use(auth(auth0_config));
-<<<<<<< HEAD
 app.get("/", async (req, res) => {
     if (req.oidc.isAuthenticated()) {
         let user = await connection.query("SELECT * FROM users WHERE id = ?", [req.oidc.user.email]);
         if (user[0].length == 0) {
             await CreateUser(connection, req.oidc.user.email);
+            user = await connection.query("SELECT * FROM users WHERE id = ?", [req.oidc.user.email]);
         }
         res.render('dash', { families: stringToJson(user[0][0].families) });
     }
@@ -86,7 +71,9 @@ app.get("/", async (req, res) => {
     }
 });
 const daysInMonth = (year, month) => new Date(year, month, 0).getDate();
-
+app.post("/family/create", async (req, res) => {
+    console.log(req.body)
+})
 app.get("/family/:id/:month/:year", async (req, res) => {
     console.log(req.params);
     if (req.oidc.isAuthenticated()) {
@@ -153,12 +140,6 @@ app.get("/family/:id/:month/:year", async (req, res) => {
         }
         res.render('family', { family: family, month: req.params.month, year: req.params.year, days: days, user: user[0][0] });
     }
-=======
-app.get("/", (req, res) => {
-    res.send(
-        req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out'
-    )
->>>>>>> c43f18c2ff914bef12546a47dbbeb3baf4bcedb9
 });
 // app.listen(3000, () => {
 //     console.log("Server is running on port 3000")
