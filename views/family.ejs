@@ -1,0 +1,161 @@
+<html>
+
+<head>
+    <script src="https://kit.fontawesome.com/44ebb0f0f4.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-color: black;
+            padding: 0;
+            margin: 0;
+        }
+        #calender {
+            background-color: hsl(0, 0%, 10%);
+            
+            width: 90%;
+            background-color: white;
+            margin-left: 5%;
+            margin-right: 5%;
+            margin-top: 4%;
+            height: 90%;
+        }
+
+        #calender-list {
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 100%;
+            /* left: 20%; */
+            position: relative;
+            /* justify-content: center; */
+        }
+
+        .day-element{
+
+            width: 14%;
+            height: 200px;
+            
+            background-color: rgb(255, 255, 255);
+            flex-grow: 1;
+            border: 1px solid black;
+            overflow-y: auto;
+        }
+        .event {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 1.2vw;
+            width: 80%;
+            left: 10%;
+            right: 10%;
+            height: 3vh;
+            position: relative;
+            background-color: rgb(242,146,157);
+            margin-top: 10px;
+        }
+        .event:hover {
+            cursor: pointer;
+        }
+        #background {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            position: absolute;
+            z-index: 10;
+        }
+        #modal {
+            width: 50%;
+            height: 50%;
+            background-color: white;
+            position: absolute;
+            z-index: 11;
+            left: 25%;
+            top: 25%;
+        }
+        #modal-body {
+            width: 90%;
+            height: 80%;
+            margin-left: 10%;
+            font-size: 1.5em;
+        }
+    </style>
+    <script>
+        let events = <%- JSON.stringify(days) %>;
+        let month = <%- month %>;
+        let year = <%- year %>
+        function ModalShow(element) {
+            document.getElementById("modal_items").style.display = "block";
+        }
+        function EventShow(element) {
+            let event_day = element.parentElement.parentElement.id
+            let event_id = element.id
+            let event = events[event_day]["events"].find(function (event) {
+                return event["id"] == event_id
+            })
+            console.log(event)
+        }
+        function ModalHide() {
+            document.getElementById("modal_items").style.display = "none";
+        }
+    </script>
+</head>
+<!-- <div id="modal_items" style="display: none;">
+    <div id="background" onclick="ModalHide()">
+    </div>
+    <div id="modal">
+        <h1 style="margin-left: 10px; font-size: 2.5em;">TEST Event</h1>
+        <div id="modal-body">
+
+        </div>
+        <div id="modal-footer">
+            <div id="modal-footer-edit">
+                <button>Edit</button>
+            </div>
+            <div id="modal-footer-delete">
+                <button>Delete</button>
+            </div>
+        </div>
+            <!-- <div id="modal-header-close">
+                <i class="fas fa-times"></i>
+            </div> -->
+        <!-- <div id="modal-body">
+            <div id="modal-body-title">
+                <h2>Event Title</h2>
+            </div>
+            <div id="modal-body-description">
+                <p>Event Description</p>
+            </div>
+            <div id="modal-body-time">
+                <p>Event Time</p>
+            </div>
+        </div> -->
+        <!-- <div id="modal-footer">
+            <div id="modal-footer-edit">
+                <button>Edit</button>
+            </div>
+            <div id="modal-footer-delete">
+                <button>Delete</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+<body>
+    
+    <div id="calender">
+        <ul id="calender-list">
+            <% for (let index = 0; index < days.length; index++) { %>
+                <div class="day-element" id="<%-index%>">
+                    <div class="day-number"><%= days[index]["day"] %></div>
+                    <div>
+                        <% days[index]["events"].forEach(function(event){ %>
+                            <div id="<%=event["id"]%>" class="event" onclick="ModalShow(this)"><%= user["name"] %> <span>
+                                <%= event["data"]["start-time"]%> - <%=event["data"]["end-time"]%>
+                            </span></div>
+                        <% }); %>
+                    </div>
+                </div>
+                
+            <% } %>
+        </ul>
+    </div>
+</body>
+
+</html>
